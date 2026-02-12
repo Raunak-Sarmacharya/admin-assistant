@@ -5,25 +5,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useApiKey } from "@/hooks/use-api-key";
-import { PROVIDERS, MOCK_INTEGRATIONS } from "@/lib/constants";
+import { PROVIDERS } from "@/lib/constants";
 import type { ProviderOption } from "@/lib/constants";
 import { fetchModels, DEFAULT_MODELS } from "@/lib/ai/models";
 import type { AIModel } from "@/lib/ai/models";
 import { toast } from "sonner";
 import {
   Key, Eye, EyeOff, CheckCircle2, XCircle, Loader2,
-  Database, Landmark, Video, Folder, RefreshCw,
+  RefreshCw,
 } from "lucide-react";
-
-const INTEGRATION_ICONS: Record<string, React.ElementType> = {
-  database: Database,
-  landmark: Landmark,
-  video: Video,
-  folder: Folder,
-};
 
 export default function SettingsPage() {
   const { apiKey, model, provider, setApiKey, setModel, setProvider, clearApiKey, isKeySet } =
@@ -285,47 +277,6 @@ export default function SettingsPage() {
               </SelectContent>
             </Select>
           )}
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Connected Integrations</CardTitle>
-          <CardDescription>
-            Data sources connected to your workspace.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-3">
-            {MOCK_INTEGRATIONS.map((integration) => {
-              const Icon = INTEGRATION_ICONS[integration.icon] || Database;
-              return (
-                <div
-                  key={integration.name}
-                  className="flex items-center justify-between rounded-lg border p-3"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="flex size-8 items-center justify-center rounded-md bg-muted">
-                      <Icon className="size-4" />
-                    </div>
-                    <span className="text-sm font-medium">
-                      {integration.name}
-                    </span>
-                  </div>
-                  {integration.connected ? (
-                    <Badge variant="secondary" className="gap-1 text-xs bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
-                      <div className="size-1.5 rounded-full bg-green-500" />
-                      Connected
-                    </Badge>
-                  ) : (
-                    <Badge variant="outline" className="text-xs">
-                      Not connected
-                    </Badge>
-                  )}
-                </div>
-              );
-            })}
-          </div>
         </CardContent>
       </Card>
     </div>

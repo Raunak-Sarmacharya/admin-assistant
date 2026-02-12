@@ -23,6 +23,9 @@ import {
   ListChecks,
   Mail,
   Loader2,
+  Mic,
+  FileUp,
+  ClipboardPaste,
 } from "lucide-react";
 import Link from "next/link";
 import type {
@@ -247,6 +250,18 @@ export default function MeetingWorkbenchPage() {
               >
                 {meeting.status.replace("_", " ")}
               </Badge>
+              {meeting.source_type && meeting.source_type !== "paste" && (
+                <Badge variant="outline" className="gap-1 text-xs">
+                  {meeting.source_type === "audio_upload" ? (
+                    <Mic className="size-2.5" />
+                  ) : (
+                    <FileUp className="size-2.5" />
+                  )}
+                  {meeting.source_type === "audio_upload"
+                    ? "Audio"
+                    : "File Upload"}
+                </Badge>
+              )}
             </div>
           </div>
         </div>

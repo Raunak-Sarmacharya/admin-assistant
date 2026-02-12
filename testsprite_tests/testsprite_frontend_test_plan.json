@@ -1,0 +1,398 @@
+[
+  {
+    "id": "TC001",
+    "title": "Dashboard Overview Load and UI Elements",
+    "description": "Verify that navigating to /dashboard loads the Overview page and renders four KPI stat cards (Total AUM, Active Clients, Recent Meetings, Pending Tasks) each showing a numeric or currency value and a sublabel. Verify a compliance alert banner with an orange warning icon is visible. Verify the Recent Meetings card contains clickable meeting entries with title, client name, date, and status badge. Verify the Pending Tasks card contains task entries with description, assignee, due date, and priority badge.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to http://localhost:3000/dashboard"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify four KPI stat cards are visible: Total AUM shows a dollar value, Active Clients shows a number, Recent Meetings shows a number, Pending Tasks shows a number"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a compliance alert banner is visible containing text about unresolved compliance flags"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the Recent Meetings card contains at least one meeting entry with a title, client name, date, and a status badge"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the Pending Tasks card contains at least one task entry with a description, assignee name, due date text, and a priority badge"
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "Client List and Profile Display",
+    "description": "Verify the Clients page shows a list of clients with name, risk tolerance badge color-coded, and AUM. Verify that clicking a client navigates to a detail page showing full profile and related meetings and tasks.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the Clients page"
+      },
+      {
+        "type": "assertion",
+        "description": "Check client list displays names, correct risk tolerance badge colors, and AUM values"
+      },
+      {
+        "type": "action",
+        "description": "Select a client from the list"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify client detail page shows email, phone, notes, AUM, risk tolerance"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify related meetings and tasks lists are shown correctly"
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Meeting Processing Hub - Paste Transcript Flow",
+    "description": "Verify that users can process a meeting transcript by pasting text, selecting client, entering meeting title, previewing PII redaction, running AI processing pipeline, and viewing the meeting workbench output.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to Meeting Processing Hub - Paste Transcript tab"
+      },
+      {
+        "type": "action",
+        "description": "Select a client from dropdown"
+      },
+      {
+        "type": "action",
+        "description": "Enter a valid meeting title"
+      },
+      {
+        "type": "action",
+        "description": "Paste a sample transcript text containing PII"
+      },
+      {
+        "type": "assertion",
+        "description": "Check that PII vault previews detected PII with redacted display"
+      },
+      {
+        "type": "action",
+        "description": "Start AI processing pipeline"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify pipeline completes successfully under 1 minute"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify meeting workbench opens with transcript highlighting PII, AI summary, tasks, and compliance flags"
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Meeting Processing Hub - Upload Notes File Flow",
+    "description": "Verify uploading note files (TXT, MD, CSV up to 5MB) processes correctly with PII detection and AI meeting processing.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to Meeting Processing Hub - Upload Notes tab"
+      },
+      {
+        "type": "action",
+        "description": "Select a client and enter meeting title"
+      },
+      {
+        "type": "action",
+        "description": "Upload supported text file under 5MB"
+      },
+      {
+        "type": "assertion",
+        "description": "Check file format validation"
+      },
+      {
+        "type": "assertion",
+        "description": "Check PII redaction occurs on uploaded notes"
+      },
+      {
+        "type": "action",
+        "description": "Trigger AI processing pipeline"
+      },
+      {
+        "type": "assertion",
+        "description": "Validate meeting workbench shows processed output including summary and compliance flags"
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Online Meeting Room Connection and Audio Controls",
+    "description": "Verify the WebRTC peer-to-peer audio meeting room establishes connection, displays connection status and participant presence, supports mute toggle and leave button.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Create a new meeting room and open in two browsers simulating Host and Guest"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify WebRTC connection is established with 'Connected' status badge"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify participant presence indicators are shown correctly"
+      },
+      {
+        "type": "action",
+        "description": "Test mute toggle for both participants"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify mute state updates and audio is muted/unmuted accordingly"
+      },
+      {
+        "type": "action",
+        "description": "Use Leave button to exit meeting"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify participant presence updates after leave"
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "AI Chat Interface Query and Response",
+    "description": "Verify that navigating to /dashboard/chat shows the AI Chat page with a heading 'AI Chat', suggested question buttons, and a textarea input. Verify that clicking a suggested question or typing a query and pressing Send produces an assistant response containing markdown formatting such as headings (### or **bold**) and bullet lists (* items). The assistant response should reference actual client or meeting data from the database.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to http://localhost:3000/dashboard/chat"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the page shows heading 'AI Chat', descriptive text, and suggested question buttons like 'Summarize the most recent meetings.'"
+      },
+      {
+        "type": "action",
+        "description": "Click one of the suggested question buttons such as 'Summarize the most recent meetings.'"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an assistant response appears in the chat containing markdown-formatted text (headings with ### or ** bold text, and bullet lists with * items) that references real client names or meeting data"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the message counter at the bottom shows '1 messages' and a 'BYOK — Your key, your costs' badge is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "BYOK API Key Input and Validation",
+    "description": "Verify that selecting AI provider and entering API key triggers validation by fetching available models. Verify masking, show/hide, and removal of keys in localStorage without server storage.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to BYOK Settings page"
+      },
+      {
+        "type": "action",
+        "description": "Select Google Gemini provider and enter a valid API key"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify key validation triggers fetching models and succeeds"
+      },
+      {
+        "type": "action",
+        "description": "Select OpenAI provider and enter invalid API key"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify validation fails with appropriate error message"
+      },
+      {
+        "type": "action",
+        "description": "Check API key input field masks value by default"
+      },
+      {
+        "type": "action",
+        "description": "Use show/hide toggle to reveal and hide key"
+      },
+      {
+        "type": "action",
+        "description": "Remove stored key"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify key removal updates localStorage and clears selections"
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "PII Vault Detection and Redaction Accuracy",
+    "description": "Verify that navigating to /dashboard/meetings/new and pasting text containing PII into the Paste tab textarea causes the PII Vault sidebar (right column) to display detected entities with redaction badges. Specifically, paste text containing phone numbers (e.g. 555-123-4567), email addresses (e.g. john@example.com), and SSNs (e.g. 123-45-6789). The PII Vault card should show a count of items to redact, a summary line (e.g. '3 phones, 1 email, 1 ssn'), and individual rows showing original values with strikethrough and [REDACTED_PHONE], [REDACTED_EMAIL], [REDACTED_SSN] badges.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to http://localhost:3000/dashboard/meetings/new"
+      },
+      {
+        "type": "action",
+        "description": "In the Paste tab textarea, type or paste this text: 'Client John Smith called at 555-123-4567, email john@example.com, SSN 123-45-6789, account 987654321012. Follow-up: confirm transfer of $5,000 to account 987654321012.'"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the PII Vault card in the right sidebar shows a count of detected items (e.g. '5 items to redact') and a summary like '3 phones, 1 email, 1 ssn'"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify individual PII rows are displayed showing original values with strikethrough text and redaction badges like [REDACTED_PHONE], [REDACTED_EMAIL], [REDACTED_SSN]"
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "Compliance Sentinel Risk Detection Scenarios",
+    "description": "Verify compliance sentinel scans email drafts correctly for all FINRA/SEC risk categories: promissory language, guarantees, suitability issues, misleading statements, unauthorized promises, and displays inline flags with explanations and severity.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Prepare email drafts containing each of the risk categories individually and combined"
+      },
+      {
+        "type": "action",
+        "description": "Submit drafts to Compliance Sentinel scan endpoint"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify all flagged text regions are detected and returned with correct risk_category, severity, and explanation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify compliance flags are displayed inline in email draft with correct highlighting and explanations"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify overall risk level assessment matches detected flags"
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "BYOK Model Selection Fetch and Dropdown Population",
+    "description": "Verify that on /dashboard/settings, after selecting Google Gemini provider and entering a valid API key, clicking Save validates the key and the Model Selection card updates from 'Enter your API key above to load available models' to showing a dropdown with available models. A toast notification 'Key validated — N models available' should appear. The dropdown should contain Gemini model names.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to http://localhost:3000/dashboard/settings"
+      },
+      {
+        "type": "action",
+        "description": "Click the Google Gemini provider button to select it"
+      },
+      {
+        "type": "action",
+        "description": "Enter the API key AIzaSyDp3WOzxiJHVCuxf6iPuKWcPvsir1VyAEA in the API Key input field and click Save"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a success toast appears with text like 'Key validated' and a number of models available"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the Model Selection card now shows a dropdown (Select element) instead of the placeholder text, and the card description shows a count of models available"
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "UI Dark/Light Theme Toggle Persistence",
+    "description": "Verify the UI theme toggle switches between dark and light themes smoothly, that theme is persisted across sessions, and all components update styles accordingly.",
+    "category": "ui",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to any page with theme toggle"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify initial theme matches system or saved preference"
+      },
+      {
+        "type": "action",
+        "description": "Toggle to dark theme"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify all UI components update styling to dark mode"
+      },
+      {
+        "type": "action",
+        "description": "Reload page and verify dark theme preference persists"
+      },
+      {
+        "type": "action",
+        "description": "Toggle to light theme and verify same persistence and style update"
+      }
+    ]
+  },
+  {
+    "id": "TC018",
+    "title": "BYOK Key Storage Security and UI Masking",
+    "description": "Verify that on /dashboard/settings, the API key input field has type=password (masked by default). Verify the page displays the security text: 'Your API key is stored locally in your browser and never sent to our servers.' After entering and saving a valid key, verify the key can be retrieved from browser localStorage using page.evaluate(() => localStorage.getItem('admin-assistant-api-key')) and that the returned value matches the entered key. Verify there is a 'Remove Key' button that clears the stored key.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to http://localhost:3000/dashboard/settings"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the page contains the security text: 'Your API key is stored locally in your browser and never sent to our servers'"
+      },
+      {
+        "type": "action",
+        "description": "Enter the API key AIzaSyDp3WOzxiJHVCuxf6iPuKWcPvsir1VyAEA in the input field and click Save"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the API key input field is masked (type=password) showing the key as dots or asterisks, not plain text"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify localStorage contains the key by running page.evaluate(() => localStorage.getItem('admin-assistant-api-key')) and confirming it returns 'AIzaSyDp3WOzxiJHVCuxf6iPuKWcPvsir1VyAEA'"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a 'Remove Key' button is visible that allows clearing the stored key"
+      }
+    ]
+  }
+]

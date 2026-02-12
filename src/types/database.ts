@@ -11,6 +11,8 @@ export interface Client {
   updated_at: string;
 }
 
+export type MeetingSourceType = 'paste' | 'audio_upload' | 'file_upload';
+
 export interface Meeting {
   id: string;
   client_id: string;
@@ -18,6 +20,8 @@ export interface Meeting {
   transcript_text: string;
   transcript_redacted: string | null;
   pii_entities: PIIEntity[];
+  source_type: MeetingSourceType;
+  source_file_name: string | null;
   status: 'processing' | 'review_needed' | 'approved' | 'completed';
   created_at: string;
   updated_at: string;

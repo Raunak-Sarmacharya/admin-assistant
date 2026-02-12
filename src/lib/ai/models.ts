@@ -6,9 +6,10 @@ export interface AIModel {
 
 // Models known to have free tier quota on Google AI Studio
 const GOOGLE_FREE_TIER_MODELS = new Set([
-  "gemini-2.0-flash",
+  "gemini-2.5-flash",
   "gemini-2.5-flash-preview-05-20",
   "gemini-2.5-pro-preview-05-06",
+  "gemini-2.0-flash",
   "gemini-1.5-flash",
   "gemini-1.5-pro",
   "gemini-2.0-flash-thinking-exp",
@@ -49,8 +50,14 @@ export async function fetchGoogleModels(apiKey: string): Promise<AIModel[]> {
     });
   }
 
-  // Sort: free-tier models first, then alphabetical
+  // Sort: gemini-2.5-flash first, then free-tier, then alphabetical
   models.sort((a, b) => {
+    const aIs25Flash = a.id === "gemini-2.5-flash";
+    const bIs25Flash = b.id === "gemini-2.5-flash";
+    if (aIs25Flash !== bIs25Flash) return aIs25Flash ? -1 : 1;
+    const aIs25 = a.id.startsWith("gemini-2.5");
+    const bIs25 = b.id.startsWith("gemini-2.5");
+    if (aIs25 !== bIs25) return aIs25 ? -1 : 1;
     const aFree = !a.name.includes("may require billing");
     const bFree = !b.name.includes("may require billing");
     if (aFree !== bFree) return aFree ? -1 : 1;
@@ -96,6 +103,6 @@ export async function fetchModels(
 }
 
 export const DEFAULT_MODELS: Record<string, string> = {
-  google: "gemini-2.0-flash",
+  google: "gemini-2.5-flash",
   openai: "gpt-4o",
 };

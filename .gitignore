@@ -42,3 +42,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# testsprite temporary/generated artifacts
+testsprite_tests/tmp/config.json
+testsprite_tests/tmp/report_prompt.json
+testsprite_tests/tmp/test_results.json

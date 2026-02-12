@@ -44,10 +44,4 @@ export const PRIORITY_COLORS: Record<string, string> = {
   low: "bg-stone-100 text-stone-600 dark:bg-stone-900/30 dark:text-stone-400",
 };
 
-export const MOCK_INTEGRATIONS = [
-  { name: "Wealthbox CRM", connected: true, icon: "database" },
-  { name: "Charles Schwab", connected: true, icon: "landmark" },
-  { name: "Fidelity", connected: true, icon: "landmark" },
-  { name: "SharePoint", connected: false, icon: "folder" },
-  { name: "Zoom", connected: true, icon: "video" },
-] as const;
+

@@ -1,0 +1,238 @@
+{
+  "meta": {
+    "project": "Mini Verlo",
+    "date": "2026-02-10",
+    "prepared_by": "Software Development Manager"
+  },
+  "product_overview": "Mini Verlo is a portfolio-grade AI Admin Assistant designed specifically for wealth management financial advisors to drastically reduce administrative overhead by automating meeting processing, client management, compliance monitoring, and AI-powered insights through a modern full-stack web application.",
+  "core_goals": [
+    "Enable financial advisors to efficiently process meetings into structured CRM-ready outputs.",
+    "Provide online and in-person meeting support with multi-modal input and peer-to-peer audio communication.",
+    "Deliver instant AI chat capabilities over all client, meeting, and task data to support advisor queries.",
+    "Ensure strict compliance with FINRA/SEC regulations through automated scanning and flagging of communications.",
+    "Protect client data privacy by automatically detecting and redacting PII before AI processing.",
+    "Support BYOK (Bring Your Own Key) for AI integrations offering choice between Google Gemini and OpenAI providers.",
+    "Implement an intuitive and robust UI with dark/light themes and enterprise-grade user experience."
+  ],
+  "key_features": [
+    "Dashboard Overview with KPI stat cards and compliance alerts providing quick insights.",
+    "Comprehensive Client Management with profiles, risk tolerance badges, and related meetings/tasks.",
+    "Meeting Processing Hub supporting paste text, live recording, audio upload, and note upload with a visual multi-step AI processing pipeline.",
+    "Meeting Workbench displaying full transcripts with PII highlights, AI-generated summaries, tasks, and compliance flag review and approval workflow.",
+    "Online Meeting Room using WebRTC for peer-to-peer audio meetings including recording, waveform visualization, and AI processing handoff.",
+    "Streaming AI Chat interface with dynamic context over all client and activity data and markdown-formatted responses.",
+    "BYOK Settings for API key and model management with provider picker and validations.",
+    "PII Vault automatically detecting and redacting sensitive information like phone numbers, emails, SSNs, and account numbers.",
+    "Compliance Sentinel scanning AI-generated email drafts for regulatory risks and displaying inline compliance flags."
+  ],
+  "user_flow_summary": [
+    "Process a pasted transcript: select client, title, paste or load sample, preview PII, process AI pipeline, view detailed meeting workbench.",
+    "Record an in-person meeting via microphone with waveform, pause/resume, stop, playback, AI transcription and analysis.",
+    "Upload an audio file with drag-and-drop validation, process with AI pipeline, view workbench output.",
+    "Conduct an online meeting: create a meeting room, role selection, WebRTC peer-to-peer audio, recording controls for host, AI processing handoff to meeting processing hub.",
+    "Interact with AI Chat to query client and meeting data with streaming markdown responses and error handling for quota issues.",
+    "Configure API key by selecting provider, entering key with validation, selecting AI model, and managing keys locally without server storage."
+  ],
+  "validation_criteria": [
+    "Users can process meetings successfully using all four input modes under one minute.",
+    "WebRTC online meetings establish connections, support audio recording, and enable AI processing of recordings.",
+    "Compliance flags appear with accurate risk detection and inline highlights in email drafts.",
+    "AI Chat returns accurate, context-aware answers referencing real seeded client data.",
+    "PII redaction consistently detects and masks sensitive information before AI calls.",
+    "BYOK API key management works with key validation and dynamic model fetching without server persistence.",
+    "UI supports smooth toggling between dark and light themes with enterprise-grade styling.",
+    "Codebase demonstrates strong type safety, separation of concerns, and modern best practices in React and Next.js."
+  ],
+  "code_summary": {
+    "tech_stack": [
+      "TypeScript 5",
+      "Next.js 16.1.6 (App Router, Turbopack)",
+      "React 19.2.3",
+      "Tailwind CSS v4",
+      "shadcn/ui (new-york style, stone base)",
+      "Lucide React v0.563",
+      "next-themes v0.4.6",
+      "Sonner v2.0.7 (toast notifications)",
+      "Supabase PostgreSQL (database) via @supabase/supabase-js v2.95.3",
+      "@supabase/ssr v0.8.0",
+      "Vercel AI SDK v6 (ai v6.0.78)",
+      "@ai-sdk/google v3.0.24",
+      "@ai-sdk/openai v3.0.26",
+      "Zod v4.3.6 (validation)",
+      "class-variance-authority v0.7.1",
+      "clsx v2.1.1",
+      "tailwind-merge v3.4.0",
+      "cmdk v1.1.1 (command palette)",
+      "radix-ui v1.4.3",
+      "MediaRecorder API (audio recording)",
+      "Web Audio API (waveform visualization)",
+      "WebRTC RTCPeerConnection (peer-to-peer audio)",
+      "Supabase Realtime Broadcast (WebRTC signaling)",
+      "localStorage (BYOK key storage)",
+      "sessionStorage (meeting recording handoff)"
+    ],
+    "features": [
+      {
+        "name": "Dashboard Overview",
+        "description": "KPI stat cards (Total AUM, Active Clients, Recent Meetings, Pending Tasks), compliance flag alert banner, recent meetings list, pending tasks list. All data fetched server-side from Supabase.",
+        "files": [
+          "src/app/dashboard/page.tsx",
+          "src/app/dashboard/layout.tsx"
+        ]
+      },
+      {
+        "name": "Client Management",
+        "description": "Client list with name, risk tolerance badge (color-coded), AUM. Client detail page with full profile including email, phone, notes, AUM, risk tolerance, related meetings and tasks.",
+        "files": [
+          "src/app/dashboard/clients/page.tsx",
+          "src/app/dashboard/clients/[id]/page.tsx"
+        ]
+      },
+      {
+        "name": "Meeting Processing Hub",
+        "description": "4 tabbed input modes: Paste transcript text, Record from microphone with live waveform, Upload Audio file (MP3/WAV/M4A/WebM/OGG up to 20MB), Upload Notes (TXT/MD/CSV up to 5MB). Includes client selection dropdown, meeting title input, PII vault real-time preview, visual processing pipeline, and Start Online Meeting button.",
+        "files": [
+          "src/app/dashboard/meetings/new/page.tsx",
+          "src/components/meeting/audio-recorder.tsx",
+          "src/components/meeting/file-upload-zone.tsx",
+          "src/components/meeting/processing-pipeline.tsx",
+          "src/data/sample-transcripts.ts"
+        ]
+      },
+      {
+        "name": "Meeting Workbench",
+        "description": "Full meeting detail with transcript (PII-highlighted), AI-generated summary, key topics as tags, extracted tasks with priority badges and due dates, email draft with inline compliance flag highlighting, approval workflow (Approve & Send button disabled until flags reviewed), source type badge.",
+        "files": [
+          "src/app/dashboard/meetings/[id]/page.tsx"
+        ]
+      },
+      {
+        "name": "Online Meeting Room (WebRTC)",
+        "description": "Standalone WebRTC peer-to-peer audio meeting room. Pre-join screen with role selection (Host/Guest), shareable meeting link with copy-to-clipboard, auto-role detection from URL hash. In-meeting: connection status badge, participant presence, mute toggle, leave button. Host features: recording controls with waveform, mixed audio recording (local+remote via AudioContext), Process with AI handoff storing recording in sessionStorage.",
+        "files": [
+          "src/app/meeting/[roomId]/page.tsx",
+          "src/hooks/use-webrtc-meeting.ts",
+          "src/hooks/use-audio-recorder.ts"
+        ]
+      },
+      {
+        "name": "AI Chat Interface",
+        "description": "Streaming AI chat over all client/meeting/task data. Dynamic context injection from Supabase (all clients, recent 10 meetings, pending tasks). Message input with send button. Mid-stream error handling for quota errors. Markdown-formatted AI responses.",
+        "files": [
+          "src/app/dashboard/chat/page.tsx",
+          "src/app/api/ai/chat/route.ts"
+        ]
+      },
+      {
+        "name": "BYOK Settings",
+        "description": "Provider picker (Google Gemini free tier / OpenAI requires billing). API key input with validation (validates by fetching models). Dynamic model selection dropdown from provider API. Key management with masked display, show/hide, remove. Connected integrations mock badges (Wealthbox CRM, Schwab, Fidelity, SharePoint, Zoom).",
+        "files": [
+          "src/app/dashboard/settings/page.tsx",
+          "src/hooks/use-api-key.ts",
+          "src/lib/ai/models.ts"
+        ]
+      },
+      {
+        "name": "AI Meeting Processing Pipeline",
+        "description": "POST endpoint taking transcript + client context, returning structured AI output (summary, key topics, tasks with priority/due_date, email draft) using generateObject with Zod schema validation. BYOK pattern with apiKey in request body.",
+        "files": [
+          "src/app/api/ai/process-meeting/route.ts",
+          "src/lib/ai/provider.ts",
+          "src/lib/ai/prompts.ts",
+          "src/lib/ai/schemas.ts"
+        ]
+      },
+      {
+        "name": "Compliance Sentinel",
+        "description": "POST endpoint scanning email drafts for FINRA/SEC regulatory risk. Returns compliance flags (flagged_text, risk_category, severity, explanation) using generateObject. Scans for: Promissory language, Guarantees, Suitability issues, Misleading statements, Unauthorized promises. Overall risk level assessment.",
+        "files": [
+          "src/app/api/ai/compliance-check/route.ts",
+          "src/lib/ai/prompts.ts",
+          "src/lib/ai/schemas.ts"
+        ]
+      },
+      {
+        "name": "Audio/Text Transcription",
+        "description": "POST endpoint taking base64-encoded audio or text file, returning transcript. Audio mode uses Gemini multimodal API with generateText. Text mode decodes base64 directly. Supports MP3, WAV, WebM, OGG, M4A up to 20MB.",
+        "files": [
+          "src/app/api/ai/transcribe/route.ts",
+          "src/lib/ai/prompts.ts"
+        ]
+      },
+      {
+        "name": "PII Vault (Redaction)",
+        "description": "Regex-based detection and redaction of phone numbers, email addresses, SSNs (full and partial), account numbers (9-12 digit sequences). Returns redacted text + array of PIIEntity objects. Real-time preview in meeting processing sidebar. Automatic redaction before any LLM call.",
+        "files": [
+          "src/lib/utils/pii-redaction.ts"
+        ]
+      },
+      {
+        "name": "AI Provider Factory",
+        "description": "createAIProvider(apiKey, model) auto-detects Google vs OpenAI from model name prefix. parseAIError(error) maps raw errors to user-friendly messages with isQuota flag for quota/rate limit scenarios. Used by all AI routes.",
+        "files": [
+          "src/lib/ai/provider.ts"
+        ]
+      },
+      {
+        "name": "Layout Components",
+        "description": "AppSidebar: Main navigation sidebar with links to Overview, Clients, Meetings, AI Chat, Settings, SOC 2 compliance badge, collapsible to icon mode. Header: Top bar with theme toggle (dark/light) and API key connection status badge.",
+        "files": [
+          "src/components/layout/app-sidebar.tsx",
+          "src/components/layout/header.tsx",
+          "src/components/providers/theme-provider.tsx"
+        ]
+      },
+      {
+        "name": "Supabase Integration",
+        "description": "Browser and server-side Supabase clients. Server client uses cookie support for SSR. Database tables: clients, meetings, meeting_outputs, tasks, compliance_flags, chat_messages. Realtime Broadcast channels for WebRTC signaling.",
+        "files": [
+          "src/lib/supabase/client.ts",
+          "src/lib/supabase/server.ts"
+        ]
+      },
+      {
+        "name": "Utility Functions",
+        "description": "Formatters for currency (compact and full), dates, relative time, due dates. Constants including app name, storage keys, provider definitions with docs URLs, color mappings for risk tolerance/status/priority, mock integrations list.",
+        "files": [
+          "src/lib/utils/formatters.ts",
+          "src/lib/constants.ts",
+          "src/lib/utils.ts"
+        ]
+      },
+      {
+        "name": "Type Definitions",
+        "description": "TypeScript type definitions for database entities: Client, Meeting, MeetingOutput, Task, ComplianceFlag, ChatMessage with full column typing.",
+        "files": [
+          "src/types/database.ts"
+        ]
+      },
+      {
+        "name": "UI Component Library (shadcn/ui)",
+        "description": "21 shadcn/ui components: Avatar, Badge, Button, Card, Command, Dialog, DropdownMenu, Input, Label, Popover, ScrollArea, Select, Separator, Sheet, Sidebar, Skeleton, Sonner (toast), Table, Tabs, Textarea, Tooltip. All using new-york style with stone base color.",
+        "files": [
+          "src/components/ui/avatar.tsx",
+          "src/components/ui/badge.tsx",
+          "src/components/ui/button.tsx",
+          "src/components/ui/card.tsx",
+          "src/components/ui/command.tsx",
+          "src/components/ui/dialog.tsx",
+          "src/components/ui/dropdown-menu.tsx",
+          "src/components/ui/input.tsx",
+          "src/components/ui/label.tsx",
+          "src/components/ui/popover.tsx",
+          "src/components/ui/scroll-area.tsx",
+          "src/components/ui/select.tsx",
+          "src/components/ui/separator.tsx",
+          "src/components/ui/sheet.tsx",
+          "src/components/ui/sidebar.tsx",
+          "src/components/ui/skeleton.tsx",
+          "src/components/ui/sonner.tsx",
+          "src/components/ui/table.tsx",
+          "src/components/ui/tabs.tsx",
+          "src/components/ui/textarea.tsx",
+          "src/components/ui/tooltip.tsx"
+        ]
+      }
+    ]
+  }
+}

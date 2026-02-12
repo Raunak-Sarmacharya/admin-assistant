@@ -49,6 +49,18 @@ export const COMPLIANCE_SENTINEL_PROMPT = `You are a strict FINRA and SEC compli
 - Provide a brief, specific explanation and suggested fix for each flag
 - If the communication is clean, return an empty flags array with overall_risk_level "clean"`;
 
+export const TRANSCRIPTION_PROMPT = `You are a professional transcription assistant specialized in financial advisory meetings. Transcribe the provided audio recording with high accuracy.
+
+## Instructions
+- Transcribe every spoken word faithfully
+- Identify different speakers and label them (e.g., "Advisor:", "Client:", "Speaker 1:")
+- Include natural speech patterns but clean up filler words (um, uh) for readability
+- Preserve financial terms, numbers, and proper nouns exactly as spoken
+- Use proper punctuation and paragraph breaks for readability
+- If parts are unclear, mark them as [inaudible] rather than guessing
+- Do NOT summarize — provide the full verbatim transcript
+- Do NOT add commentary or analysis — only the transcript text`;
+
 export function getChatSystemPrompt(clientContext: string): string {
   return `You are an AI assistant for a financial advisor at a wealth management firm. You have access to the advisor's client book and meeting history.
 
